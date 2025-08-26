@@ -28,14 +28,15 @@ CREATE TABLE IF NOT EXISTS pagamento (
     valor DECIMAL(10,2) NOT NULL,
     status ENUM('PENDENTE','FINALIZADO','REJEITADO','EXTORNADO') NOT NULL,
     data_pg DATETIME NOT NULL,
-    id_pagamento INT NOT NULL,
+    id_pedido INT NOT NULL,
     FOREIGN KEY (id_pedido) REFERENCES pedido(id)
 );
 
 -- TABELA TIPO_POLTRONA
 CREATE TABLE IF NOT EXISTS tipo_poltrona (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT
 );
 
 -- TABELA POLTRONA
@@ -74,6 +75,7 @@ CREATE TABLE IF NOT EXISTS filme_genero (
 -- TABELA TIPO_SESSAO
 CREATE TABLE IF NOT EXISTS tipo_sessao (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
     descricao VARCHAR(100) NOT NULL,
     adicional DECIMAL(3,2) NOT NULL
 );
@@ -81,7 +83,8 @@ CREATE TABLE IF NOT EXISTS tipo_sessao (
 -- TABELA TIPO_SALA
 CREATE TABLE IF NOT EXISTS tipo_sala (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    descricao VARCHAR(100) NOT NULL
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT
 );
 
 -- TABELA SALA
@@ -98,11 +101,10 @@ CREATE TABLE IF NOT EXISTS sessao (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_sala INT NOT NULL,
     horario DATETIME NOT NULL,
-    id_tipo INT NOT NULL,
     preco_base DECIMAL(8,2) NOT NULL,
     id_filme INT NOT NULL,
     FOREIGN KEY (id_sala) REFERENCES sala(id),
-    FOREIGN KEY (id_tipo) REFERENCES tipo_sessao(id),
+    FOREIGN KEY (id_tipo_sessao) REFERENCES tipo_sessao(id),
     FOREIGN KEY (id_filme) REFERENCES filme(id)
 );
 
@@ -118,7 +120,8 @@ CREATE TABLE IF NOT EXISTS sessao_tipo_sessao (
 -- TABELA TIPO_INGRESSO
 CREATE TABLE IF NOT EXISTS tipo_ingresso (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    descricao VARCHAR(100) NOT NULL
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT
 );
 
 -- TABELA INGRESSO
@@ -134,3 +137,4 @@ CREATE TABLE IF NOT EXISTS ingresso (
     FOREIGN KEY (id_tipo_ingresso) REFERENCES tipo_ingresso(id),
     FOREIGN KEY (id_pedido) REFERENCES pedido(id)
 );
+
