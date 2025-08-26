@@ -1,8 +1,9 @@
-CREATE DATABASE cinema;
+-- CRIAÇÃO DO BANCO
+CREATE DATABASE IF NOT EXISTS cinema;
 USE cinema;
 
 -- TABELA USUARIO
-CREATE TABLE usuario (
+CREATE TABLE IF NOT EXISTS usuario (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(200) NOT NULL,
     cpf VARCHAR(13) NOT NULL UNIQUE,
@@ -12,7 +13,7 @@ CREATE TABLE usuario (
 );
 
 -- TABELA PEDIDO
-CREATE TABLE pedido (
+CREATE TABLE IF NOT EXISTS pedido (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_usuario INT NOT NULL,
     data_pedido DATETIME NOT NULL,
@@ -21,52 +22,32 @@ CREATE TABLE pedido (
 );
 
 -- TABELA PAGAMENTO
-CREATE TABLE pagamento (
+CREATE TABLE IF NOT EXISTS pagamento (
     id INT AUTO_INCREMENT PRIMARY KEY,
     forma_pagamento VARCHAR(50) NOT NULL,
     valor DECIMAL(10,2) NOT NULL,
     status ENUM('PENDENTE','FINALIZADO','REJEITADO','EXTORNADO') NOT NULL,
     data_pg DATETIME NOT NULL,
-    id_reserva INT NOT NULL,
-    FOREIGN KEY (id_reserva) REFERENCES pedido(id)
+    id_pagamento INT NOT NULL,
+    FOREIGN KEY (id_pedido) REFERENCES pedido(id)
 );
 
 -- TABELA TIPO_POLTRONA
-CREATE TABLE tipo_poltrona (
+CREATE TABLE IF NOT EXISTS tipo_poltrona (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL
 );
 
 -- TABELA POLTRONA
-CREATE TABLE poltrona (
+CREATE TABLE IF NOT EXISTS poltrona (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(3) NOT NULL,
     id_tipo_poltrona INT NOT NULL,
     FOREIGN KEY (id_tipo_poltrona) REFERENCES tipo_poltrona(id)
 );
 
--- TABELA TIPO_INGRESSO
-CREATE TABLE tipo_ingresso (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    descricao VARCHAR(100) NOT NULL
-);
-
--- TABELA INGRESSO
-CREATE TABLE ingresso (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    id_poltrona INT NOT NULL,
-    id_sessao INT NOT NULL,
-    id_tipo_ingresso INT NOT NULL,
-    id_pedido INT NOT NULL,
-    CONSTRAINT uq_poltrona_sessao UNIQUE (id_poltrona, id_sessao),
-    FOREIGN KEY (id_poltrona) REFERENCES poltrona(id),
-    FOREIGN KEY (id_sessao) REFERENCES sessao(id),
-    FOREIGN KEY (id_tipo_ingresso) REFERENCES tipo_ingresso(id),
-    FOREIGN KEY (id_pedido) REFERENCES pedido(id)
-);
-
 -- TABELA FILME
-CREATE TABLE filme (
+CREATE TABLE IF NOT EXISTS filme (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(100) NOT NULL,
     sinopse TEXT NOT NULL,
@@ -76,14 +57,13 @@ CREATE TABLE filme (
 );
 
 -- TABELA GENERO
-CREATE TABLE genero (
+CREATE TABLE IF NOT EXISTS genero (
     id INT AUTO_INCREMENT PRIMARY KEY,
     descricao VARCHAR(100) NOT NULL
 );
 
-
 -- TABELA FILME_GENERO
-CREATE TABLE filme_genero (
+CREATE TABLE IF NOT EXISTS filme_genero (
     id_filme INT NOT NULL,
     id_genero INT NOT NULL,
     PRIMARY KEY (id_filme, id_genero),
@@ -91,17 +71,30 @@ CREATE TABLE filme_genero (
     FOREIGN KEY (id_genero) REFERENCES genero(id)
 );
 
-
 -- TABELA TIPO_SESSAO
-CREATE TABLE tipo_sessao (
+CREATE TABLE IF NOT EXISTS tipo_sessao (
     id INT AUTO_INCREMENT PRIMARY KEY,
     descricao VARCHAR(100) NOT NULL,
     adicional DECIMAL(3,2) NOT NULL
 );
 
+-- TABELA TIPO_SALA
+CREATE TABLE IF NOT EXISTS tipo_sala (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    descricao VARCHAR(100) NOT NULL
+);
+
+-- TABELA SALA
+CREATE TABLE IF NOT EXISTS sala (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    numero INT NOT NULL,
+    capacidade INT NOT NULL,
+    id_tipo_sala INT NOT NULL,
+    FOREIGN KEY (id_tipo_sala) REFERENCES tipo_sala(id)
+);
 
 -- TABELA SESSAO
-CREATE TABLE sessao (
+CREATE TABLE IF NOT EXISTS sessao (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_sala INT NOT NULL,
     horario DATETIME NOT NULL,
@@ -114,7 +107,7 @@ CREATE TABLE sessao (
 );
 
 -- TABELA SESSAO_TIPO_SESSAO
-CREATE TABLE sessao_tipo_sessao (
+CREATE TABLE IF NOT EXISTS sessao_tipo_sessao (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_sessao INT NOT NULL,
     id_tipo_sessao INT NOT NULL,
@@ -122,17 +115,22 @@ CREATE TABLE sessao_tipo_sessao (
     FOREIGN KEY (id_tipo_sessao) REFERENCES tipo_sessao(id)
 );
 
--- TABELA TIPO_SALA
-CREATE TABLE tipo_sala (
+-- TABELA TIPO_INGRESSO
+CREATE TABLE IF NOT EXISTS tipo_ingresso (
     id INT AUTO_INCREMENT PRIMARY KEY,
     descricao VARCHAR(100) NOT NULL
 );
 
--- TABELA SALA
-CREATE TABLE sala (
+-- TABELA INGRESSO
+CREATE TABLE IF NOT EXISTS ingresso (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    numero INT NOT NULL,
-    capacidade INT NOT NULL,
-    id_tipo_sala INT NOT NULL,
-    FOREIGN KEY (id_tipo_sala) REFERENCES tipo_sala(id)
+    id_poltrona INT NOT NULL,
+    id_sessao INT NOT NULL,
+    id_tipo_ingresso INT NOT NULL,
+    id_pedido INT NOT NULL,
+    CONSTRAINT uq_poltrona_sessao UNIQUE (id_poltrona, id_sessao),
+    FOREIGN KEY (id_poltrona) REFERENCES poltrona(id),
+    FOREIGN KEY (id_sessao) REFERENCES sessao(id),
+    FOREIGN KEY (id_tipo_ingresso) REFERENCES tipo_ingresso(id),
+    FOREIGN KEY (id_pedido) REFERENCES pedido(id)
 );
