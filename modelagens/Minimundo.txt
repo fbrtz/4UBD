@@ -1,11 +1,1 @@
-O presente sistema foi desenvolvido para gerenciar as operações de um cinema, contemplando desde o cadastro de usuários até o controle de filmes, sessões, ingressos e pagamentos.
-
-Os usuários representam os clientes do cinema e possuem informações pessoais como nome, CPF, data de nascimento, telefone e e-mail. Cada usuário pode realizar diversos pedidos ao longo do tempo. Um pedido corresponde à solicitação de compra de ingressos e contém a data em que foi realizado, além de um status que indica sua situação atual. Associado a cada pedido existe um pagamento, no qual são registrados a forma de pagamento utilizada, o valor pago, a data em que foi efetuado e o status do processamento.
-
-Os ingressos estão vinculados aos pedidos e representam a reserva de poltronas específicas em sessões determinadas. Para cada ingresso são armazenados o tipo de ingresso (como inteira, meia-entrada ou cortesia), a poltrona escolhida e a sessão correspondente. As poltronas pertencem a salas de exibição, e cada uma possui um tipo definido (como comum, VIP ou especial), garantindo que o sistema registre a ocupação correta das cadeiras.
-
-As sessões correspondem à exibição de filmes em horários definidos e ocorrem sempre em uma sala específica. Cada sessão possui um preço base e está associada a um filme. Além disso, uma sessão pode possuir tipos diferenciados, como matinê, VIP ou estudantil, que acrescentam valores adicionais ao preço do ingresso. As salas do cinema são identificadas por número, possuem uma capacidade máxima de lugares e estão associadas a um tipo, que pode ser 2D, 3D, IMAX, entre outros.
-
-Os filmes cadastrados no sistema possuem título, sinopse, duração, classificação indicativa e cartaz ilustrativo. Cada filme pode estar relacionado a um ou mais gêneros, como ação, comédia ou drama, permitindo ao sistema organizar melhor o catálogo exibido.
-
-Dessa forma, o sistema garante a gestão integrada do cinema, possibilitando o controle de usuários, pedidos, pagamentos, filmes, sessões, ingressos, salas e poltronas, assegurando que todas as informações estejam devidamente relacionadas e disponíveis para operação eficiente do negócio.
+https://docs.google.com/document/d/1tv7LQth3GK_x3MwdfT9EBfO12SJ3oqUUdP1PjgnjW3o/edit?usp=sharing
